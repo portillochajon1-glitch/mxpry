@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traditional Gastronomy - Maya Horizon Travels</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: #080c14; 
+            color: #f1f5f9; 
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mayan-border {
+            height: 14px;
+            width: 100%;
+            background-image: repeating-linear-gradient(
+                90deg,
+                #111827 0px, #111827 10px,
+                #E63946 10px, #E63946 20px,
+                #D4AF37 20px, #D4AF37 30px,
+                #00A896 30px, #00A896 40px
+            );
+            border-bottom: 2px solid #E63946;
+        }
+
+        header {
+            padding: 20px 40px;
+            background: #0d1322;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E63946;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            color: #E63946;
+            font-size: 1.6rem;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .btn-spot { background: rgba(0, 168, 150, 0.2); color: #00A896; border: 1px solid #00A896; }
+        .btn-spot:hover { background: #00A896; color: #fff; }
+        .btn-back { background: #D4AF37; color: #0b0f19; }
+        .btn-back:hover { background: #fff; }
+
+        .content-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .food-card {
+            background: #0d1322;
+            border: 2px solid #E63946;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(230,57,70,0.2);
+        }
+
+        /* 3-IMAGE GASTRONOMY GALLERY */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: #080c14;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #E63946;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.03);
+        }
+
+        .food-body {
+            padding: 30px;
+        }
+
+        .title-badge {
+            display: inline-block;
+            background: rgba(230, 57, 70, 0.2);
+            color: #E63946;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .food-title {
+            font-family: 'Cinzel', serif;
+            color: #D4AF37;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .dish-highlight {
+            font-size: 1.1rem;
+            color: #f1f5f9;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1f293d;
+            padding-bottom: 15px;
+        }
+
+        .grid-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .box {
+            background: #111827;
+            border: 1px solid #1f293d;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .box-ingredients { border-left: 4px solid #D4AF37; }
+        .box-drink { border-left: 4px solid #E63946; }
+
+        .box h3 {
+            font-family: 'Cinzel', serif;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+
+        .box p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .image-gallery { grid-template-columns: 1fr; }
+            .gallery-img { height: 180px; }
+            .grid-boxes { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mayan-border"></div>
+
+    <header>
+        <h1>🌮 TRADITIONAL GASTRONOMY</h1>
+        <div class="header-btns" id="nav-actions"></div>
+    </header>
+
+    <div class="content-container">
+        <div id="food-card" class="food-card"></div>
+    </div>
+
+    <div class="mayan-border"></div>
+
+    <script>
+        const foodData = {
+            1: { 
+                region: "Yucatán", mainDish: "Cochinita Pibil and Lime Soup", 
+                images: [
+                    "https://lastaquerias.com/wp-content/uploads/2024/03/cochinita-pibil.jpg",
+                    "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80"
+                ],
+                ingredients: "Pork marinated in red recado (achiote) and bitter orange juice, wrapped in banana leaves and slow-cooked in a subterranean earth oven (Píb).", drink: "Chaya water with lime or Xtabentún liqueur." 
+            },
+            2: { 
+                region: "Quintana Roo", mainDish: "Fish Tacos and Caribbean Ceviche", 
+                images: [
+                    "https://images.unsplash.com/photo-1512838243191-e81e8f66f1fd?auto=format&fit=crop&w=600&q=80",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToF7Hd-nf2eWpdwtI-ap9CrLDnZyVU61GNApSjz2QDVA&s=10",
+                    "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80"
+                ],
+                ingredients: "Fresh Caribbean fish, seared or battered, served with pico de gallo, shredded cabbage, and chipotle dressing.", drink: "Tropical fruit margarita or local pale ale." 
+            },
+            3: { 
+                region: "Mexico City", mainDish: "Tacos al Pastor and Guajolotas", 
+                images: [
+                    "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiuISuMZ-DGZT0ZmxO7ccgt1_qi5Df99tUDNfejG7EjQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaRe_9NMNHy8Ssb_QELyZDJh8s-eqRbbJSxT9y153dpw&s=10"
+                ],
+                ingredients: "Pork meat marinated in achiote and dried chilies, roasted on a vertical spit with pineapple, cilantro, and onion served on corn tortillas.", drink: "Horchata water, hibiscus tea, or cured pulque." 
+            },
+            4: { 
+                region: "Quintana Roo", mainDish: "Tikin Xic Fish", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKDldamHXGizk7uOq37rlJA17PDarx1E4B5w4DqmYA3w&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgaeYzCS07o0s784DhPt9NU6wBr6hy0moqMjd1H85A5Q&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSg8mo7VTttP--uHRBXDSGGffIcdIEakZnRfudPFQVQA&s=10"
+                ],
+                ingredients: "Whole fish marinated in achiote paste, Mayan spices, tomato, and onion, grilled over open coals wrapped in banana leaves.", drink: "Coconut cocktails or passion fruit mezcalita." 
+            },
+            5: { 
+                region: "State of Mexico", mainDish: "Lamb Mixiotes and Barbacoa", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXbLRDd83hMPZwMP28w9SY7VsEgs4fmP0NK7Ivy_2Zpw&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDnXB4yJFfKLgfj5e-d8xaBbrJcNXXQkPiPzvvpNT6ww&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5k1VcJH4wLOurcAkfU50MjWM9vXM9Pd1HsH4I-4bS-g&s=10"
+                ],
+                ingredients: "Meat marinated in a dried chili sauce, wrapped in the outer skin of the maguey leaf and steamed to perfection.", drink: "Flavored cured pulque (pine nut, guava, or oatmeal)." 
+            },
+            6: { 
+                region: "Quintana Roo", mainDish: "Seafood Panuchos and Salbutes", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQMQo_y-T6xl1MiXsQhKJDoHzIwzGnyU_kRjCCJuQ0Cw&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgj7B-CWfS6pUp_VQ3_fNR3Lb2g_x7f6c2CuGmg8o3tg&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDNhU_2gBC9hHVpxptuQkYbRplzE2RIacZou3xkFva_Q&s=10"
+                ],
+                ingredients: "Fried tortillas stuffed with strained black beans, topped with mixed seafood or octopus, pickled red onion, and avocado.", drink: "Fresh soursop or passion fruit juice." 
+            },
+            7: { 
+                region: "Jalisco", mainDish: "Tortas Ahogadas and Birria", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxfejkodd-KYbZlFgx21r_H0cCFANKLjABE2uc5S7Hw&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiWC10wlZ2OB2W2vBuClnMsdXb63eztJs9FLjujrgRug&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGzueuXd6Nna6HNr_ZBtu1lonYobIkDuhov3Ek4uJZzQ&s=10"
+                ],
+                ingredients: "Salty birote bread stuffed with pork carnitas, fully submerged in a spicy sauce made of chile de árbol and tomatoes.", drink: "Straight tequila, Paloma, or Tejuino topped with lime sorbet." 
+            },
+            8: { 
+                region: "Jalisco", mainDish: "Pescado Zarandeado and Aguachile", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhjsWfgkkCcE1k5olDoB0q_2MsCwkmScZ6crYsy9wT3Q&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToCln-R3emRstvc3uo7S4dWkpR8b5sjQ8ZeVZpx3mhEQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNC_-s-iP6liB0MsfiBDJP-deX3-7kPzoVrmWCij_6Fg&s=10"
+                ],
+                ingredients: "Split-open fish marinated in guajillo chili sauce, soy sauce, and spices, slow-grilled over wood fire.", drink: "Traditional Tuba drink or local coastal craft beer." 
+            },
+            9: { 
+                region: "Baja California Sur", mainDish: "Gobernador Tacos and Chocolate Clams", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGDpcRxmj0O8LIh_XgLpZqNKEbDKK6Ox2I-dQ4tg0I3w&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbO0JNQMrpy-OGA1lBxa6Safkpm0w0GCZdSx1UrFNNVg&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV_s5_uF_QRxOpm_AslYBWvUUHxI-JnKK2Qwmlqdwc7Q&s=10"
+                ],
+                ingredients: "Shrimp sautéed with peppers, onions, and melted cheese inside a griddled golden corn tortilla.", drink: "Baja California wines or prepared Clamato." 
+            },
+            10: { 
+                region: "Guanajuato", mainDish: "Enchiladas Mineras", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSqN3PpjWvBPl5S-0acjD7U6TzU4fOYbtaEwyqJVn-SA&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvBR71uR6WFIgFToCNI9e82Vkp6A3lILQ2PlJpULyg3A&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqktcOp6ACJG7PnoQtJRdlPPqQZV2fZ6wO3cDT19Qw6A&s=10"
+                ],
+                ingredients: "Corn tortillas dipped in guajillo chili sauce, lightly fried and filled with ranchero cheese, served with sautéed potatoes and carrots.", drink: "Beetroot water with lime (Agua del Obispado)." 
+            },
+            11: { 
+                region: "Oaxaca", mainDish: "Black Mole and Tlayudas with Tasajo", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZCV4NeRUoUuBXatYkpe86xU8NCDaqJc1J4TVaJK7RnA&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLgdhaAOmGb-5iNTPqKK3rcmI9Xsvxweyjy3fqFSFGbQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4Wk3WNZ7HsCyIlSS0ZOfzHEKafg_LaRmtRdI1i0QLjw&s=100"
+                ],
+                ingredients: "Complex sauce crafted with over 30 ingredients, including toasted chilies, chocolate, seeds, and spices, served over turkey or chicken.", drink: "Artisanal mezcal with worm salt or hot chocolate (water-based)." 
+            },
+            12: { 
+                region: "Guanajuato", mainDish: "San Miguel Style Cold Fiambre", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEIdWFQZQjyyYSbbelSLgTNu3tZiTQ0fCJnE3Ekfj1mA&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3nK5Pu9WYi8spQY0hPcWKq4BqawvBZh0mf2VSFus9sA&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk-UmUMIxX9daFaq6S_0x0yySmqQ3Nu8lkDsrJkybcRQ&s=10"
+                ],
+                ingredients: "Traditional cold dish blending cold cuts, chicken, and trotters with pickled vegetables and fresh fruits.", drink: "Local red wine from regional vineyards." 
+            },
+            13: { 
+                region: "Chiapas", mainDish: "Chipilín Tamales and Shote with Momo", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaNe4_-g0A0qnWnhTsTBIVpic2DMW7Z-QcMmd9D3j6bg&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMeIF0_GWzkFfl9ojbaTCzIUV9Hcwlt64kC7fq59CDPw&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpM8DlCEjS7hvBqjLgQ0nSYTnJMRn1tbisKKbRtYug8Q&s=10"
+                ],
+                ingredients: "Corn dough mixed with fresh chipilín leaves, stuffed with cheese or chicken, wrapped and steamed in banana leaves.", drink: "Chilled cocoa pozol or Tascalate." 
+            },
+            14: { 
+                region: "Guerrero", mainDish: "Pescado a la Talla and Green Pozole", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN9dUtzar8LjCYiDhvIlnwK2F5cZb0PNJJnhbnezmpKQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGZYlwayONen6ofLM7Yi7vS7tCjDcGkw5Mm8TLlLlsrA&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQue1jariMSDeIjghAi3F9WBl72sn2N8rgUbLLkegnByg&s=10"
+                ],
+                ingredients: "Butterflied fish coated with guajillo chili adobo on one side and green sauce on the other, grilled over open embers.", drink: "Iced chilate (cocoa, rice, and cinnamon drink)." 
+            },
+            15: { 
+                region: "Quintana Roo", mainDish: "Conch Ceviche and Lobster", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNikvIeStYwc7Vz_lIcbRSDRbatjfgDEWkyWd8F46YsQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE7ZihV0uowH2m7fYpgXl5LKHI0tpQnAFnBxF3yywTSQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSnIkkJUzSuRtgwEZyXnyeVnX8Bwi0UmVDw-63dg72cw&s=10"
+                ],
+                ingredients: "Diced fresh sea conch marinated in lime juice, habanero chili, onion, and cilantro.", drink: "Fresh coconut water." 
+            },
+            16: { 
+                region: "Quintana Roo", mainDish: "Dogfish Empanadas and Marquesitas", 
+                images: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy6sJP31bMozcKbs_9Po1IZkR03ngXqKBNLmnfyviM9w&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUHhN899FunNWPhiejYsLIlViYMH1A3SuxM22h02sZYQ&s=10",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStDRarJjDu0yzWwMpHFXWK2mGc-WT_TmQ1_himA9sNlg&s=10"
+                ],
+                ingredients: "Corn dough filled with stewed dogfish, epazote, and tomato. Dessert: rolled crispy crepe filled with Edam cheese.", drink: "Chaya juice with pineapple." 
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const spotId = urlParams.get('id') || 1;
+        const food = foodData[spotId] || foodData[1];
+
+        document.getElementById('nav-actions').innerHTML = `
+            <a href="lugar.html?id=${spotId}" class="btn btn-spot">🏛️ View Attraction</a>
+            <a href="mapa.html" class="btn btn-back">⬅ Map</a>
+        `;
+
+        document.getElementById('food-card').innerHTML = `
+            <div class="image-gallery">
+                <img src="${food.images[0]}" alt="${food.mainDish} 1" class="gallery-img">
+                <img src="${food.images[1]}" alt="${food.mainDish} 2" class="gallery-img">
+                <img src="${food.images[2]}" alt="${food.mainDish} 3" class="gallery-img">
+            </div>
+            <div class="food-body">
+                <span class="title-badge">📍 Gastronomy of ${food.region}</span>
+                <h2 class="food-title">${food.mainDish}</h2>
+                <p class="dish-highlight">Iconic specialty recommended to try when visiting this region.</p>
+                
+                <div class="grid-boxes">
+                    <div class="box box-ingredients">
+                        <h3>🥘 Preparation & Ingredients</h3>
+                        <p>${food.ingredients}</p>
+                    </div>
+                    <div class="box box-drink">
+                        <h3>🍹 Traditional Drink</h3>
+                        <p>${food.drink}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    </script>
+</body>
+</html>
